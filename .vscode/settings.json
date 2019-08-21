@@ -2,6 +2,9 @@
     "python.pythonPath": "env\\Scripts\\python.exe",
     "cSpell.words": [
         "algo",
+        "binom",
+        "chebyshev",
+        "ortonormal",
         "zfill"
     ]
 }

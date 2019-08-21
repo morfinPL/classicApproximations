@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 
 
-def plot(outputPath, probes, order, name, function, approximation):
+def plot(outputPath, probes, order, name, function, approximation, a, b):
+    plt.clf()
     plt.title(name + " approximation of " + repr(order) + " order")
-    xArray = [i / probes for i in range(1, probes)]
+    xArray = [a + (b - a) * i / probes for i in range(1, probes)]
     yArray = [function(x) for x in xArray]
     plt.plot(xArray, yArray, ls="-", lw=0.5, color="g", ms=5)
     yArray = [approximation(x) for x in xArray]

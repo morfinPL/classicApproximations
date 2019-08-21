@@ -1,0 +1,6 @@
+{
+    "probes": 1000,
+    "order": "5",
+    "outputPath": "output/legendre/exp1",
+    "method": "Legendre"
+}

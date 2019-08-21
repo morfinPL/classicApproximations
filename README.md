@@ -1,8 +1,10 @@
 # Classic approximations [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ## Implemented methods:
-1. Fourier coefficients based methods:
-    - Haar approximation.
+1. Fourier coefficients and ortonormal system based methods:
+    - Haar approximation,
+    - Legendre approximation,
+    - Trigonometric approximation.
 
 ## Run
 To run our script you must have python3 and install requirements from requirements.txt file. Then you can simply run
@@ -19,6 +21,20 @@ for any other details.
         ![](output/haar/exp1/approximation.png)
     - 7 order
         ![](output/haar/exp2/approximation.png)
+2. Examples of Legendre approximation
+    - 3 order
+        ![](output/legendre/exp0/approximation.png)
+    - 5 order
+        ![](output/legendre/exp1/approximation.png)
+    - 7 order
+        ![](output/legendre/exp2/approximation.png)
+3. Examples of Trigonometric approximation
+    - 3 order
+        ![](output/trigonometric/exp0/approximation.png)
+    - 7 order
+        ![](output/trigonometric/exp1/approximation.png)
+    - 15 order
+        ![](output/trigonometric/exp2/approximation.png)
 
 
 [LICENSE](LICENSE).
