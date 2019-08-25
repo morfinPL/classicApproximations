@@ -1,0 +1,6 @@
+{
+    "probes": 1000,
+    "order": "5",
+    "outputPath": "output/chebyshev/exp0",
+    "method": "Chebyshev"
+}

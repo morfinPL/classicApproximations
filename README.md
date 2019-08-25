@@ -5,6 +5,8 @@
     - Haar approximation,
     - Legendre approximation,
     - Trigonometric approximation.
+2. Other methods
+    - Chebyshev approximation.
 
 ## Run
 To run our script you must have python3 and install requirements from requirements.txt file. Then you can simply run
@@ -35,6 +37,13 @@ for any other details.
         ![](output/trigonometric/exp1/approximation.png)
     - 15 order
         ![](output/trigonometric/exp2/approximation.png)
+4. Examples of Chebyshev approximation
+    - 5 order
+        ![](output/chebyshev/exp0/approximation.png)
+    - 6 order
+        ![](output/chebyshev/exp1/approximation.png)
+    - 7 order
+        ![](output/chebyshev/exp2/approximation.png)
 
 
 [LICENSE](LICENSE).
