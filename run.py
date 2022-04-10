@@ -9,15 +9,15 @@ from haar import haarApproximation
 from legendre import legendreApproximation
 from trigonometric import trigonometricApproximation
 from utils import plot
-
+from typing import Callable
 
 def parseArguments():
     parser = ArgumentParser()
     parser.add_argument("-p", "--probes", dest="probes", default=1000, help="Number of probes for plot.")
     parser.add_argument("-n", "--order", dest="order", help="Order of approximation.", default=4)
     parser.add_argument("-o", "--outputPath", dest="outputPath", required=True, help="Output directory for experiment.")
-    parser.add_argument("-m", "--method", dest="method",
-                        help="Approximation method [Haar - default | Trigonometric | Legendre | Chebyshev].", default="Haar")
+    parser.add_argument("-m", "--method", dest="method", choices=["Haar", "Trigonometric", "Legendre", "Chebyshev"],
+                        help="Approximation method.", default="Haar")
     args = parser.parse_args()
     if (args.method != "Trigonometric" and args.method != "Legendre" and args.method != "Chebyshev"):
         args.method = "Haar"
@@ -28,7 +28,18 @@ def parseArguments():
     return int(args.probes), int(args.order), args.outputPath, args.method
 
 
-def parseMethod(method):
+def parseMethod(method: str) -> Callable[[Callable[[float], float], int], Callable[[float], float]]:
+    """Parse approximation method name to approximation object.
+
+    Args:
+        method (str): Approximation method name.
+
+    Raises:
+        ValueError: When you pass wrong method name.
+
+    Returns:
+        Callable[[Callable[[float], float], int], Callable[[float], float]]: Approximation callable object, which returns approximation after call with original function object and order.
+    """
     if(method == "Haar"):
         return haarApproximation
     if(method == "Trigonometric"):
@@ -37,6 +48,7 @@ def parseMethod(method):
         return legendreApproximation
     if(method == "Chebyshev"):
         return chebyshevApproximation
+    raise ValueError(f"Wrong approximation method name: {method}!")
 
 
 def function(t):
