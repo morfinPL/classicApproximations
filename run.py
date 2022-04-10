@@ -34,7 +34,7 @@ def parseMethod(method):
     if(method == "Trigonometric"):
         return trigonometricApproximation
     if(method == "Legendre"):
-        return haarApproximation
+        return legendreApproximation
     if(method == "Chebyshev"):
         return chebyshevApproximation
 
