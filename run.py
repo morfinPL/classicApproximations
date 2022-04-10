@@ -42,8 +42,8 @@ def parseMethod(method):
 def function(t):
     return 2 + np.exp(t) * (1 + t) * (1 - t) * t * (t - 1.0 / 3.0) * (t - 4.0 / 5.0)
 
-
-probes, order, outputPath, method = parseArguments()
-approximationMethod = parseMethod(method)
-approximation = approximationMethod(function, order)
-plot(outputPath, probes, order, method, function, approximation, 0.0, 1.0)
+if __name__ == "__main__":
+    probes, order, outputPath, method = parseArguments()
+    approximationMethod = parseMethod(method)
+    approximation = approximationMethod(function, order)
+    plot(outputPath, probes, order, method, function, approximation, 0.0, 1.0)
