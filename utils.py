@@ -1,7 +1,23 @@
 import matplotlib.pyplot as plt
 
+from pathlib import Path
 
-def plot(outputPath, probes, order, name, function, approximation, a, b):
+from typing import Callable
+
+
+def plot(outputPath: Path, probes: int, order: int, name:str, function: Callable[[float], float], approximation: Callable[[float], float], a:float, b:float) -> None:
+    """Function to plot orginal function and it's approximation.
+
+    Args:
+        outputPath (Path): Directory where function saves approximation.png.
+        probes (int): Number of probes used in [a, b] interval.
+        order (int): Order of approximation method, used only for title.
+        name (str): Name of approximation method, used only for title.
+        function (Callable[[float], float]): Original function.
+        approximation (Callable[[float], float]): Approximation function.
+        a (float): Left end of approximation interval.
+        b (float): Right end of approximation interval.
+    """
     plt.clf()
     plt.title(name + " approximation of " + repr(order) + " order")
     xArray = [a + (b - a) * i / probes for i in range(1, probes)]
