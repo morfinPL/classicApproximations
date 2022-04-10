@@ -1,4 +1,6 @@
-# Classic approximations [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+# Classic approximations [![pages](https://github.com/morfinPL/classicApproximations/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/morfinPL/classicApproximations/actions/workflows/pages.yml) [![pages-build-deployment](https://github.com/morfinPL/classicApproximations/actions/workflows/pages/pages-build-deployment/badge.svg?branch=pages)](https://github.com/morfinPL/classicApproximations/actions/workflows/pages/pages-build-deployment) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+## [Documentation](https://morfinpl.github.io/classicApproximations)
 
 ## Implemented methods:
 1. Fourier coefficients and ortonormal system based methods:
