@@ -76,15 +76,15 @@
 <span class="kn">from</span> <span class="nn">legendre</span> <span class="kn">import</span> <span class="n">legendreApproximation</span>
 <span class="kn">from</span> <span class="nn">trigonometric</span> <span class="kn">import</span> <span class="n">trigonometricApproximation</span>
 <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">plot</span>
-
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 
 <div class="viewcode-block" id="parseArguments"><a class="viewcode-back" href="../run.html#run.parseArguments">[docs]</a><span class="k">def</span> <span class="nf">parseArguments</span><span class="p">():</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="s2">&quot;--probes&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;probes&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of probes for plot.&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="s2">&quot;--order&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Order of approximation.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="s2">&quot;--outputPath&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;outputPath&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output directory for experiment.&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;--method&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;method&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Approximation method [Haar - default | Trigonometric | Legendre | Chebyshev].&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;Haar&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;--method&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Haar&quot;</span><span class="p">,</span> <span class="s2">&quot;Trigonometric&quot;</span><span class="p">,</span> <span class="s2">&quot;Legendre&quot;</span><span class="p">,</span> <span class="s2">&quot;Chebyshev&quot;</span><span class="p">],</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Approximation method.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;Haar&quot;</span><span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">method</span> <span class="o">!=</span> <span class="s2">&quot;Trigonometric&quot;</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">method</span> <span class="o">!=</span> <span class="s2">&quot;Legendre&quot;</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">method</span> <span class="o">!=</span> <span class="s2">&quot;Chebyshev&quot;</span><span class="p">):</span>
         <span class="n">args</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;Haar&quot;</span>
@@ -95,7 +95,18 @@
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">probes</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">order</span><span class="p">),</span> <span class="n">args</span><span class="o">.</span><span class="n">outputPath</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">method</span></div>
 
 
-<div class="viewcode-block" id="parseMethod"><a class="viewcode-back" href="../run.html#run.parseMethod">[docs]</a><span class="k">def</span> <span class="nf">parseMethod</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+<div class="viewcode-block" id="parseMethod"><a class="viewcode-back" href="../run.html#run.parseMethod">[docs]</a><span class="k">def</span> <span class="nf">parseMethod</span><span class="p">(</span><span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Parse approximation method name to approximation object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        method (str): Approximation method name.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: When you pass wrong method name.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Callable[[Callable[[float], float], int], Callable[[float], float]]: Approximation callable object, which returns approximation after call with original function object and order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span><span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;Haar&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">haarApproximation</span>
     <span class="k">if</span><span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;Trigonometric&quot;</span><span class="p">):</span>
@@ -103,7 +114,8 @@
     <span class="k">if</span><span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;Legendre&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">legendreApproximation</span>
     <span class="k">if</span><span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;Chebyshev&quot;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">chebyshevApproximation</span></div>
+        <span class="k">return</span> <span class="n">chebyshevApproximation</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrong approximation method name: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="function"><a class="viewcode-back" href="../run.html#run.function">[docs]</a><span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
