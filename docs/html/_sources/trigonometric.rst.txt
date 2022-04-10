@@ -1,0 +1,7 @@
+trigonometric module
+====================
+
+.. automodule:: trigonometric
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,12 @@
+classicApproximations
+=====================
+
+.. toctree::
+   :maxdepth: 4
+
+   chebyshev
+   haar
+   legendre
+   run
+   trigonometric
+   utils
