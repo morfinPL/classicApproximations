@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  autopep8_check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.9.7'
+    - name: Prepare environment
+      run: |
+        pip install poetry==1.1.13
+        poetry install
+    - name: autopep8 check
+      run: poetry run autopep8 --diff --exit-code .
+  isort_check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.9.7'
+    - name: Prepare environment
+      run: |
+        pip install poetry==1.1.13
+        poetry install
+    - name: isort check
+      run: poetry run isort --check-only .
+  autoflake_check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.9.7'
+    - name: Prepare environment
+      run: |
+        pip install poetry==1.1.13
+        poetry install
+    - name: autoflake check
+      run: poetry run autoflake --check --recursive .
