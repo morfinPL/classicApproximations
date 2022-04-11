@@ -1,13 +1,13 @@
 import numpy as np
-from scipy import integrate
+from typing import Callable, List
 
 
-def W(n, t):
+def W(n: int, t: float) -> float:
     t = 2 * t - 1
     return np.cos(n * np.arccos(t))
 
 
-def chebyshevCoefficients(f, N):
+def chebyshevCoefficients(f: Callable[[float], float], N: int) -> List[float]:
     c = []
     for j in range(N):
         c.append(0.0)
@@ -19,10 +19,10 @@ def chebyshevCoefficients(f, N):
     return c
 
 
-def chebyshevApproximation(f, N):
+def chebyshevApproximation(f: Callable[[float], float], N: int) -> Callable[[float], float]:
     c = chebyshevCoefficients(f, N)
 
-    def approximation(t):
+    def approximation(t: float) -> float:
         value = 0.0
         for i in range(N):
             value += c[i] * W(i, t)

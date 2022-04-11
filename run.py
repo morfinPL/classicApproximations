@@ -4,28 +4,23 @@ from json import dump
 
 import numpy as np
 
-from chebyshev import chebyshevApproximation
-from haar import haarApproximation
-from legendre import legendreApproximation
-from trigonometric import trigonometricApproximation
+from approximations import chebyshevApproximation, haarApproximation, legendreApproximation, trigonometricApproximation
 from utils import plot
 from typing import Callable
 
 def parseArguments():
     parser = ArgumentParser()
-    parser.add_argument("-p", "--probes", dest="probes", default=1000, help="Number of probes for plot.")
-    parser.add_argument("-n", "--order", dest="order", help="Order of approximation.", default=4)
-    parser.add_argument("-o", "--outputPath", dest="outputPath", required=True, help="Output directory for experiment.")
-    parser.add_argument("-m", "--method", dest="method", choices=["Haar", "Trigonometric", "Legendre", "Chebyshev"],
-                        help="Approximation method.", default="Haar")
+    parser.add_argument("-p", "--probes", type=int, default=1000, help="Number of probes for plot.")
+    parser.add_argument("-n", "--order", type=int, default=4, help="Order of approximation.")
+    parser.add_argument("-o", "--output_path", required=True, help="Output directory for experiment.")
+    parser.add_argument("-m", "--method", type=str, default="Haar", choices=["Haar", "Trigonometric", "Legendre", "Chebyshev"],
+                        help="Approximation method.")
     args = parser.parse_args()
-    if (args.method != "Trigonometric" and args.method != "Legendre" and args.method != "Chebyshev"):
-        args.method = "Haar"
-    if not os.path.exists(args.outputPath):
-        os.makedirs(args.outputPath)
-    with open(args.outputPath + "\\config.json", "w") as configFile:
+    if not os.path.exists(args.output_path):
+        os.makedirs(args.output_path)
+    with open(args.output_path + "\\config.json", "w") as configFile:
         dump(vars(args), configFile, indent=4)
-    return int(args.probes), int(args.order), args.outputPath, args.method
+    return args.probes, args.order, args.output_path, args.method
 
 
 def parseMethod(method: str) -> Callable[[Callable[[float], float], int], Callable[[float], float]]:
@@ -55,7 +50,7 @@ def function(t):
     return 2 + np.exp(t) * (1 + t) * (1 - t) * t * (t - 1.0 / 3.0) * (t - 4.0 / 5.0)
 
 if __name__ == "__main__":
-    probes, order, outputPath, method = parseArguments()
+    probes, order, output_path, method = parseArguments()
     approximationMethod = parseMethod(method)
     approximation = approximationMethod(function, order)
-    plot(outputPath, probes, order, method, function, approximation, 0.0, 1.0)
+    plot(output_path, probes, order, method, function, approximation, 0.0, 1.0)
