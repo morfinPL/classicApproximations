@@ -12,7 +12,7 @@ def chebyshevCoefficients(f: Callable[[float], float], N: int) -> List[float]:
     c = []
     for j in range(N):
         c.append(0.0)
-        for k in range(1, N+1):
+        for k in range(1, N + 1):
             xk = 0.5 * np.cos(np.pi * (k - 0.5) / N) + 0.5
             c[j] += f(xk) * W(j, xk)
         c[j] *= 2 / N
