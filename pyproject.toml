@@ -14,6 +14,30 @@ matplotlib = "^3.5.1"
 [tool.poetry.dev-dependencies]
 Sphinx = "^4.5.0"
 sphinx-rtd-theme = "^1.0.0"
+autopep8 = "^1.6.0"
+isort = "^5.10.1"
+pyproject-autoflake = "^1.0.1"
+
+[tool.autoflake]
+in-place = true
+recursive = true
+exclude = ".github,.venv,.vscode,doc,output"
+remove-all-unused-imports = true
+ignore-init-module-imports = true
+remove-duplicate-keys = true
+remove-unused-variables = true
+
+[tool.autopep8]
+max_line_length = 140
+exclude = ".github,.venv,.vscode,doc,output"
+diff = true
+recursive = true
+aggressive = 2
+verbose = 1
+
+[tool.isort]
+profile = "black"
+skip = [".github", ".venv", ".vscode", "doc", "output"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
