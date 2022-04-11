@@ -1,12 +1,18 @@
 import os.path
 from argparse import ArgumentParser
 from json import dump
+from typing import Callable
 
 import numpy as np
 
-from approximations import chebyshevApproximation, haarApproximation, legendreApproximation, trigonometricApproximation
+from approximations import (
+    chebyshevApproximation,
+    haarApproximation,
+    legendreApproximation,
+    trigonometricApproximation,
+)
 from utils import plot
-from typing import Callable
+
 
 def parseArguments():
     parser = ArgumentParser()

@@ -1,5 +1,6 @@
-from scipy import integrate
 from typing import Callable, List
+
+from scipy import integrate
 
 
 def x(t:float) -> float:

@@ -1,5 +1,6 @@
-import numpy as np
 from typing import Callable, List
+
+import numpy as np
 
 
 def W(n: int, t: float) -> float:
