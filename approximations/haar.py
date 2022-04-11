@@ -1,7 +1,8 @@
 from scipy import integrate
+from typing import Callable, List
 
 
-def x(t):
+def x(t:float) -> float:
     value = 0.0
     if (t >= 0.0 and t < 0.5):
         value = 1.0
@@ -10,17 +11,17 @@ def x(t):
     return value
 
 
-def y(t):
+def y(t: float) -> float:
     return 1.0 if (t >= 0 and t < 1.0) else 0.0
 
 
-def W(n, k, t):
+def W(n: int, k: int, t: float)-> float:
     if (n == 0 and k == 0):
         return y(t)
     return 2**(0.5 * n) * x(2**n * t - k + 1) * y(2**n * t - k + 1)
 
 
-def haarCoefficients(f, N):
+def haarCoefficients(f: Callable[[float], float], N: int) -> List[List[float]]:
     c = [[]]
     c[0].append(integrate.quad(lambda t: f(t), 0.0, 1.0)[0])
     c[0].append(integrate.quad(lambda t: f(t) * W(0, 1, t), 0.0, 1.0)[0])
@@ -31,10 +32,10 @@ def haarCoefficients(f, N):
     return c
 
 
-def haarApproximation(f, N):
+def haarApproximation(f: Callable[[float], float], N: int) -> Callable[[float], float]:
     c = haarCoefficients(f, N)
 
-    def approximation(t):
+    def approximation(t:float) -> float:
         value = 0.0
         value += c[0][0] * W(0, 0, t)
         value += c[0][1] * W(0, 1, t)
