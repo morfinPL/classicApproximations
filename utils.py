@@ -28,4 +28,4 @@ def plot(outputPath: Path, probes: int, order: int, name: str, function: Callabl
     plt.legend(["Original function", name + " approximation"], bbox_to_anchor=(0.5, -0.1), loc="lower center", ncol=3)
     plt.tight_layout(rect=[0, 0, 1, 1])
     plt.gcf().set_size_inches(12, 9)
-    plt.savefig(outputPath + "\\approximation.png", dpi=100)
+    plt.savefig(outputPath / "approximation.png", dpi=100)
