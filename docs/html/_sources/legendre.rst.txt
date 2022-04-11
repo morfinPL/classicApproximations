@@ -1,7 +1,0 @@
-legendre module
-===============
-
-.. automodule:: legendre
-   :members:
-   :undoc-members:
-   :show-inheritance:

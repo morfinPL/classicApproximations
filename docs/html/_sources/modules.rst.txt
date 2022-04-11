@@ -4,9 +4,6 @@ classicApproximations
 .. toctree::
    :maxdepth: 4
 
-   chebyshev
-   haar
-   legendre
+   approximations
    run
-   trigonometric
    utils

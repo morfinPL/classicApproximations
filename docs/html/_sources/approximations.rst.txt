@@ -1,0 +1,45 @@
+approximations package
+======================
+
+Submodules
+----------
+
+approximations.chebyshev module
+-------------------------------
+
+.. automodule:: approximations.chebyshev
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+approximations.haar module
+--------------------------
+
+.. automodule:: approximations.haar
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+approximations.legendre module
+------------------------------
+
+.. automodule:: approximations.legendre
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+approximations.trigonometric module
+-----------------------------------
+
+.. automodule:: approximations.trigonometric
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: approximations
+   :members:
+   :undoc-members:
+   :show-inheritance:
