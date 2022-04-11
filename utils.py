@@ -1,8 +1,7 @@
-import matplotlib.pyplot as plt
-
 from pathlib import Path
-
 from typing import Callable
+
+import matplotlib.pyplot as plt
 
 
 def plot(outputPath: Path, probes: int, order: int, name:str, function: Callable[[float], float], approximation: Callable[[float], float], a:float, b:float) -> None:

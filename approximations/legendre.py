@@ -1,6 +1,6 @@
-import scipy as sp
-
 from typing import Callable, List
+
+import scipy as sp
 
 
 def W(n:int, t:float):

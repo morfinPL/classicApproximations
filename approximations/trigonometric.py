@@ -1,6 +1,8 @@
+from typing import Callable, List
+
 import numpy as np
 from scipy import integrate
-from typing import Callable, List
+
 
 def A(n: int, t: float) -> float:
     return np.cos(n * 2 * np.pi * t)
