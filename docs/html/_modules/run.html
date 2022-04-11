@@ -68,11 +68,12 @@
 <span></span><span class="kn">import</span> <span class="nn">os.path</span>
 <span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
 <span class="kn">from</span> <span class="nn">json</span> <span class="kn">import</span> <span class="n">dump</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">approximations</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ApproximationMethod</span><span class="p">,</span>
     <span class="n">chebyshevApproximation</span><span class="p">,</span>
     <span class="n">haarApproximation</span><span class="p">,</span>
     <span class="n">legendreApproximation</span><span class="p">,</span>
@@ -81,51 +82,40 @@
 <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">plot</span>
 
 
-<div class="viewcode-block" id="parseArguments"><a class="viewcode-back" href="../run.html#run.parseArguments">[docs]</a><span class="k">def</span> <span class="nf">parseArguments</span><span class="p">():</span>
+<div class="viewcode-block" id="parseArguments"><a class="viewcode-back" href="../run.html#run.parseArguments">[docs]</a><span class="k">def</span> <span class="nf">parseArguments</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ApproximationMethod</span><span class="p">]:</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="s2">&quot;--probes&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of probes for plot.&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="s2">&quot;--order&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Order of approximation.&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="s2">&quot;--output_path&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output directory for experiment.&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;--method&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;Haar&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Haar&quot;</span><span class="p">,</span> <span class="s2">&quot;Trigonometric&quot;</span><span class="p">,</span> <span class="s2">&quot;Legendre&quot;</span><span class="p">,</span> <span class="s2">&quot;Chebyshev&quot;</span><span class="p">],</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Approximation method.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-m&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--method&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">method</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">ApproximationMethod</span><span class="p">],</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Approximation method.&quot;</span><span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_path</span><span class="p">):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_path</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_path</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">config.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">configFile</span><span class="p">:</span>
-        <span class="n">dump</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="n">configFile</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">args</span><span class="o">.</span><span class="n">probes</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">order</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">method</span></div>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_path</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">config.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config_file</span><span class="p">:</span>
+        <span class="n">dump</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="n">config_file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">args</span><span class="o">.</span><span class="n">probes</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">order</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_path</span><span class="p">,</span> <span class="n">ApproximationMethod</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">method</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="parseMethod"><a class="viewcode-back" href="../run.html#run.parseMethod">[docs]</a><span class="k">def</span> <span class="nf">parseMethod</span><span class="p">(</span><span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Parse approximation method name to approximation object.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        method (str): Approximation method name.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        ValueError: When you pass wrong method name.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Callable[[Callable[[float], float], int], Callable[[float], float]]: Approximation callable object, which returns approximation after call with original function object and order.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;Haar&quot;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">haarApproximation</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;Trigonometric&quot;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">trigonometricApproximation</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;Legendre&quot;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">legendreApproximation</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;Chebyshev&quot;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">chebyshevApproximation</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrong approximation method name: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="function"><a class="viewcode-back" href="../run.html#run.function">[docs]</a><span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="function"><a class="viewcode-back" href="../run.html#run.function">[docs]</a><span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="k">return</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mf">4.0</span> <span class="o">/</span> <span class="mf">5.0</span><span class="p">)</span></div>
 
 
+<span class="n">approximation_methods</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">ApproximationMethod</span><span class="o">.</span><span class="n">CHEBYSHEV</span><span class="p">:</span> <span class="n">chebyshevApproximation</span><span class="p">,</span>
+    <span class="n">ApproximationMethod</span><span class="o">.</span><span class="n">HAAR</span><span class="p">:</span> <span class="n">haarApproximation</span><span class="p">,</span>
+    <span class="n">ApproximationMethod</span><span class="o">.</span><span class="n">LEGENDRE</span><span class="p">:</span> <span class="n">legendreApproximation</span><span class="p">,</span>
+    <span class="n">ApproximationMethod</span><span class="o">.</span><span class="n">TRIGONOMETRIC</span><span class="p">:</span> <span class="n">trigonometricApproximation</span><span class="p">,</span>
+<span class="p">}</span>
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">probes</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">parseArguments</span><span class="p">()</span>
-    <span class="n">approximationMethod</span> <span class="o">=</span> <span class="n">parseMethod</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+    <span class="n">approximationMethod</span> <span class="o">=</span> <span class="n">approximation_methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
     <span class="n">approximation</span> <span class="o">=</span> <span class="n">approximationMethod</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">order</span><span class="p">)</span>
     <span class="n">plot</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">probes</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">approximation</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 </pre></div>

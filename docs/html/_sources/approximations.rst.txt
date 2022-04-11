@@ -4,6 +4,14 @@ approximations package
 Submodules
 ----------
 
+approximations.approximation\_method module
+-------------------------------------------
+
+.. automodule:: approximations.approximation_method
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 approximations.chebyshev module
 -------------------------------
 
