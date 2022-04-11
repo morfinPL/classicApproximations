@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [[ "$OSTYPE" == "msys" ]]; then
+    COMMITED_FILES="$(git diff --staged --name-only HEAD | tr '\n\r' '  ')"
+else
+    COMMITED_FILES="$(git diff --staged --name-only HEAD | tr '\n' '  ')"
+fi
+
+poetry run autopep8 --in-place .
+echo "autopep8 fixes applied"
+
+poetry run isort .
+echo "isort fixes applied"
+
+poetry run pautoflake --in-place .
+echo "autoflake fixes applied"
+
+for COMMITED_FILE in $COMMITED_FILES; do
+    git add "$COMMITED_FILE"
+done
