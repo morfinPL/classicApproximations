@@ -55,6 +55,7 @@ def parseMethod(method: str) -> Callable[[Callable[[float], float], int], Callab
 def function(t):
     return 2 + np.exp(t) * (1 + t) * (1 - t) * t * (t - 1.0 / 3.0) * (t - 4.0 / 5.0)
 
+
 if __name__ == "__main__":
     probes, order, output_path, method = parseArguments()
     approximationMethod = parseMethod(method)
