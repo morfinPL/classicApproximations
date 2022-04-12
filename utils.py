@@ -4,12 +4,13 @@ from typing import Callable
 import matplotlib.pyplot as plt
 
 
-def plot(outputPath: Path, probes: int, order: int, name: str, function: Callable[[
+def plot(outputPath: Path, output_file_name: str, probes: int, order: int, name: str, function: Callable[[
          float], float], approximation: Callable[[float], float], a: float, b: float) -> None:
     """Function to plot orginal function and it's approximation.
 
     Args:
         outputPath (Path): Directory where function saves approximation.png.
+        output_file_name (str): Name of output file without extension.
         probes (int): Number of probes used in [a, b] interval.
         order (int): Order of approximation method, used only for title.
         name (str): Name of approximation method, used only for title.
@@ -28,4 +29,4 @@ def plot(outputPath: Path, probes: int, order: int, name: str, function: Callabl
     plt.legend(["Original function", name + " approximation"], bbox_to_anchor=(0.5, -0.1), loc="lower center", ncol=3)
     plt.tight_layout(rect=[0, 0, 1, 1])
     plt.gcf().set_size_inches(12, 9)
-    plt.savefig(outputPath / "approximation.png", dpi=100)
+    plt.savefig(outputPath / (output_file_name + ".png"), dpi=100)
