@@ -10,6 +10,7 @@ python = ">=3.9,<3.11"
 numpy = "^1.22.3"
 scipy = "^1.8.0"
 matplotlib = "^3.5.1"
+pylint = "^2.13.5"
 
 [tool.poetry.dev-dependencies]
 Sphinx = "^4.5.0"
@@ -32,11 +33,21 @@ max_line_length = 140
 exclude = ".github,.venv,.vscode,doc,output"
 recursive = true
 aggressive = 2
-verbose = 1
+verbose = 0
 
 [tool.isort]
 profile = "black"
 skip = [".github", ".venv", ".vscode", "doc", "output"]
+
+[tool.pylint.messages_control]
+max-line-length = 140
+ignore-paths = "^.*/.venv/.*$,^.*/doc/.*$,^.*/.github/.*$,^.*/.vscode/.*$,^.*/hooks/.*$,^.*/output/.*$"
+recursive = true
+persistent = false
+suggestion-mode = true
+py-version = "3.9.7"
+format = "colorized"
+score = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
