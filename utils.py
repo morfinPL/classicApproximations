@@ -1,3 +1,5 @@
+"""The module which is consisted of the utility functions."""
+
 from pathlib import Path
 from typing import Callable
 

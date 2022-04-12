@@ -1,4 +1,4 @@
-"""Module which run whole approximation process."""
+"""The module runs the whole approximation process."""
 
 from argparse import ArgumentParser
 from pathlib import Path
