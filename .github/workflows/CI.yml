@@ -48,3 +48,16 @@ jobs:
         poetry install
     - name: autoflake check
       run: poetry run pautoflake --check .
+  pylint_check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.9.7'
+    - name: Prepare environment
+      run: |
+        pip install poetry==1.1.13
+        poetry install
+    - name: pylint check
+      run: poetry run pylint .
