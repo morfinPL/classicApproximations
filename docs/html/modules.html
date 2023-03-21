@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>classicApproximations &mdash; Classic approximations 1.0.0 documentation</title>
@@ -12,9 +12,8 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -29,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: green" >
-            <a href="index.html" class="icon icon-home"> Classic approximations
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Classic approximations
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -61,8 +64,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>classicApproximations</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">classicApproximations</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -73,21 +76,60 @@
            <div itemprop="articleBody">
              
   <section id="classicapproximations">
-<h1>classicApproximations<a class="headerlink" href="#classicapproximations" title="Permalink to this headline"></a></h1>
+<h1>classicApproximations<a class="headerlink" href="#classicapproximations" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="approximations.html">approximations package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="approximations.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="approximations.html#module-approximations.approximation_method">approximations.approximation_method module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="approximations.html#module-approximations.chebyshev">approximations.chebyshev module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="approximations.html#module-approximations.haar">approximations.haar module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="approximations.html#module-approximations.legendre">approximations.legendre module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="approximations.html#module-approximations.trigonometric">approximations.trigonometric module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="approximations.html#module-approximations.approximation_method">approximations.approximation_method module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.approximation_method.ApproximationMethod"><code class="docutils literal notranslate"><span class="pre">ApproximationMethod</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="approximations.html#approximations.approximation_method.ApproximationMethod.CHEBYSHEV"><code class="docutils literal notranslate"><span class="pre">ApproximationMethod.CHEBYSHEV</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="approximations.html#approximations.approximation_method.ApproximationMethod.HAAR"><code class="docutils literal notranslate"><span class="pre">ApproximationMethod.HAAR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="approximations.html#approximations.approximation_method.ApproximationMethod.LEGENDRE"><code class="docutils literal notranslate"><span class="pre">ApproximationMethod.LEGENDRE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="approximations.html#approximations.approximation_method.ApproximationMethod.TRIGONOMETRIC"><code class="docutils literal notranslate"><span class="pre">ApproximationMethod.TRIGONOMETRIC</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="approximations.html#module-approximations.chebyshev">approximations.chebyshev module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.chebyshev.W"><code class="docutils literal notranslate"><span class="pre">W()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.chebyshev.chebyshevApproximation"><code class="docutils literal notranslate"><span class="pre">chebyshevApproximation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.chebyshev.chebyshevCoefficients"><code class="docutils literal notranslate"><span class="pre">chebyshevCoefficients()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="approximations.html#module-approximations.haar">approximations.haar module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.haar.W"><code class="docutils literal notranslate"><span class="pre">W()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.haar.haarApproximation"><code class="docutils literal notranslate"><span class="pre">haarApproximation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.haar.haarCoefficients"><code class="docutils literal notranslate"><span class="pre">haarCoefficients()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.haar.x"><code class="docutils literal notranslate"><span class="pre">x()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.haar.y"><code class="docutils literal notranslate"><span class="pre">y()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="approximations.html#module-approximations.legendre">approximations.legendre module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.legendre.W"><code class="docutils literal notranslate"><span class="pre">W()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.legendre.legendreApproximation"><code class="docutils literal notranslate"><span class="pre">legendreApproximation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.legendre.legendreCoefficients"><code class="docutils literal notranslate"><span class="pre">legendreCoefficients()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="approximations.html#module-approximations.trigonometric">approximations.trigonometric module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.trigonometric.A"><code class="docutils literal notranslate"><span class="pre">A()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.trigonometric.B"><code class="docutils literal notranslate"><span class="pre">B()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.trigonometric.trigonometricApproximation"><code class="docutils literal notranslate"><span class="pre">trigonometricApproximation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="approximations.html#approximations.trigonometric.trigonometricCoefficients"><code class="docutils literal notranslate"><span class="pre">trigonometricCoefficients()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="approximations.html#module-approximations">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="run.html">run module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">run module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="run.html#run.function"><code class="docutils literal notranslate"><span class="pre">function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="run.html#run.parse_args"><code class="docutils literal notranslate"><span class="pre">parse_args()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">utils module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#utils.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>

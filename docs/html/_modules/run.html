@@ -11,9 +11,8 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -26,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: green" >
-            <a href="../index.html" class="icon icon-home"> Classic approximations
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Classic approximations
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -53,9 +56,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Module code</a> &raquo;</li>
-      <li>run</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">run</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -66,50 +69,78 @@
              
   <h1>Source code for run</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;The module runs the whole approximation process.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">approximations</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ApproximationMethod</span><span class="p">,</span>
-    <span class="n">chebyshevApproximation</span><span class="p">,</span>
-    <span class="n">haarApproximation</span><span class="p">,</span>
-    <span class="n">legendreApproximation</span><span class="p">,</span>
-    <span class="n">trigonometricApproximation</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">approximations.approximation_method</span> <span class="kn">import</span> <span class="n">ApproximationMethod</span>
+<span class="kn">from</span> <span class="nn">approximations.chebyshev</span> <span class="kn">import</span> <span class="n">chebyshevApproximation</span>
+<span class="kn">from</span> <span class="nn">approximations.haar</span> <span class="kn">import</span> <span class="n">haarApproximation</span>
+<span class="kn">from</span> <span class="nn">approximations.legendre</span> <span class="kn">import</span> <span class="n">legendreApproximation</span>
+<span class="kn">from</span> <span class="nn">approximations.trigonometric</span> <span class="kn">import</span> <span class="n">trigonometricApproximation</span>
 <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">plot</span>
 
 
-<div class="viewcode-block" id="parse_args"><a class="viewcode-back" href="../run.html#run.parse_args">[docs]</a><span class="k">def</span> <span class="nf">parse_args</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="n">ApproximationMethod</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Function, which parses command line arguments.</span>
+<div class="viewcode-block" id="parse_args"><a class="viewcode-back" href="../run.html#run.parse_args">[docs]</a><span class="k">def</span> <span class="nf">parse_args</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ApproximationMethod</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function, which parses command line arguments.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[Path, str, int, ApproximationMethod, int]: Output directory path, output file name without extension, number of probes used \</span>
 <span class="sd">for plots on [a, b] interval, approximation method, order of approximation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="s2">&quot;--output-dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output directory path.&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;--output-file-name&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;approximation&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output file name without extension.&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="s2">&quot;--probes&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of probes for plot.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--output-dir&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output directory path.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-f&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--output-file-name&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;approximation&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output file name without extension.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--probes&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of probes for plot.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;-m&quot;</span><span class="p">,</span>
         <span class="s2">&quot;--method&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">method</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">ApproximationMethod</span><span class="p">],</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Approximation method.&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="s2">&quot;--order&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Order of approximation.&quot;</span><span class="p">)</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="n">method</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">ApproximationMethod</span><span class="p">],</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Approximation method.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-n&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--order&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Order of approximation.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
     <span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_file_name</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">probes</span><span class="p">,</span> <span class="n">ApproximationMethod</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">method</span><span class="p">),</span> <span class="n">args</span><span class="o">.</span><span class="n">order</span></div>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">output_file_name</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">probes</span><span class="p">,</span>
+        <span class="n">ApproximationMethod</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">method</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">order</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="function"><a class="viewcode-back" href="../run.html#run.function">[docs]</a><span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Simple real domain real value function.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple real domain real value function.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        time (float): Input float value.</span>
@@ -117,7 +148,9 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        float: Function value on time argument.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">time</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">time</span><span class="p">)</span> <span class="o">*</span> <span class="n">time</span> <span class="o">*</span> <span class="p">(</span><span class="n">time</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">time</span> <span class="o">-</span> <span class="mf">4.0</span> <span class="o">/</span> <span class="mf">5.0</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">time</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">time</span><span class="p">)</span> <span class="o">*</span> <span class="n">time</span> <span class="o">*</span> <span class="p">(</span><span class="n">time</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="n">time</span> <span class="o">-</span> <span class="mf">4.0</span> <span class="o">/</span> <span class="mf">5.0</span>
+    <span class="p">)</span></div>
 
 
 <span class="n">approximation_methods</span> <span class="o">=</span> <span class="p">{</span>
@@ -132,7 +165,17 @@
     <span class="n">output_dir</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">,</span> <span class="n">probes</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
     <span class="n">approximationMethod</span> <span class="o">=</span> <span class="n">approximation_methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
     <span class="n">approximation</span> <span class="o">=</span> <span class="n">approximationMethod</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">order</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">,</span> <span class="n">probes</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">approximation</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span>
+        <span class="n">output_dir</span><span class="p">,</span>
+        <span class="n">output_file_name</span><span class="p">,</span>
+        <span class="n">probes</span><span class="p">,</span>
+        <span class="n">order</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">function</span><span class="p">,</span>
+        <span class="n">approximation</span><span class="p">,</span>
+        <span class="mf">0.0</span><span class="p">,</span>
+        <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">)</span>
 </pre></div>
 
            </div>
