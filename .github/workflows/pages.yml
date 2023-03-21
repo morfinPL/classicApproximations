@@ -7,9 +7,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v3
+    - uses: actions/setup-python@v4.5.0
       with:
-        python-version: '3.9.7'
+        python-version: '3.11.1'
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
@@ -19,16 +19,22 @@ jobs:
         git config --local user.email pl.morfin.pl@gmail.com
         git config --global user.name "morfinPL"
         git merge origin/main
-    - name: Prepare environment
-      run: |
-        pip install poetry==1.1.13
-        poetry install
+    - uses: pdm-project/setup-pdm@v3
+      name: Setup PDM
+      with:
+        python-version: 3.11  # Version range or exact version of a Python version to use, the same as actions/setup-python
+        architecture: x64     # The target architecture (x86, x64) of the Python interpreter. the same as actions/setup-python
+        version: 2.4.8        # The version of PDM to install. Leave it as empty to use the latest version from PyPI, or 'head' to use the latest version from GitHub
+        prerelease: false     # Allow prerelease versions to be installed
+        enable-pep582: true   # Enable PEP 582 package loading globally
+    - name: Install dependencies
+      run: pdm install -G:all
     - name: Generate documentation
       run: |
-        poetry run sphinx-apidoc -f -o doc/source .
+        pdm run sphinx-apidoc -f -o doc/source .
         rm -rf docs
         cd doc
-        poetry run make html
+        pdm run make html
         cd ..
         rm -rf docs/doctrees
         echo "<meta http-equiv=\"refresh\" content=\"0; url=./html/index.html\"/>" > docs/index.html

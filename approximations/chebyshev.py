@@ -1,4 +1,6 @@
-from typing import Callable, List
+from __future__ import annotations
+
+from collections.abc import Callable
 
 import numpy as np
 
@@ -8,7 +10,7 @@ def W(n: int, t: float) -> float:
     return np.cos(n * np.arccos(t))
 
 
-def chebyshevCoefficients(f: Callable[[float], float], N: int) -> List[float]:
+def chebyshevCoefficients(f: Callable[[float], float], N: int) -> list[float]:
     c = []
     for j in range(N):
         c.append(0.0)
@@ -20,7 +22,10 @@ def chebyshevCoefficients(f: Callable[[float], float], N: int) -> List[float]:
     return c
 
 
-def chebyshevApproximation(f: Callable[[float], float], N: int) -> Callable[[float], float]:
+def chebyshevApproximation(
+    f: Callable[[float], float],
+    N: int,
+) -> Callable[[float], float]:
     c = chebyshevCoefficients(f, N)
 
     def approximation(t: float) -> float:
@@ -28,4 +33,5 @@ def chebyshevApproximation(f: Callable[[float], float], N: int) -> Callable[[flo
         for i in range(N):
             value += c[i] * W(i, t)
         return value
+
     return approximation
