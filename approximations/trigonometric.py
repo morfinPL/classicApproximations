@@ -1,4 +1,6 @@
-from typing import Callable, List
+from __future__ import annotations
+
+from collections.abc import Callable
 
 import numpy as np
 from scipy import integrate
@@ -12,8 +14,8 @@ def B(n: int, t: float) -> float:
     return np.sin(n * 2 * np.pi * t)
 
 
-def trigonometricCoefficients(f: Callable[[float], float], N: int) -> List[List[float]]:
-    c = [[], []]
+def trigonometricCoefficients(f: Callable[[float], float], N: int) -> list[list[float]]:
+    c: list[list[float]] = [[], []]
     c[0].append(integrate.quad(f, 0.0, 1.0)[0])
     c[1].append(0.0)
     for i in range(1, N + 1):
@@ -22,7 +24,10 @@ def trigonometricCoefficients(f: Callable[[float], float], N: int) -> List[List[
     return c
 
 
-def trigonometricApproximation(f: Callable[[float], float], N: int) -> Callable[[float], float]:
+def trigonometricApproximation(
+    f: Callable[[float], float],
+    N: int,
+) -> Callable[[float], float]:
     c = trigonometricCoefficients(f, N)
 
     def approximation(t: float) -> float:
@@ -31,4 +36,5 @@ def trigonometricApproximation(f: Callable[[float], float], N: int) -> Callable[
             value += c[0][i] * A(i, t)
             value += c[1][i] * B(i, t)
         return value
+
     return approximation

@@ -1,13 +1,23 @@
 """The module which is consisted of the utility functions."""
+from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 import matplotlib.pyplot as plt
 
 
-def plot(outputPath: Path, output_file_name: str, probes: int, order: int, name: str, function: Callable[[
-         float], float], approximation: Callable[[float], float], a: float, b: float) -> None:
+def plot(
+    outputPath: Path,
+    output_file_name: str,
+    probes: int,
+    order: int,
+    name: str,
+    function: Callable[[float], float],
+    approximation: Callable[[float], float],
+    a: float,
+    b: float,
+) -> None:
     """Function to plot orginal function and it's approximation.
 
     Args:
@@ -28,7 +38,12 @@ def plot(outputPath: Path, output_file_name: str, probes: int, order: int, name:
     plt.plot(xArray, yArray, ls="-", lw=0.5, color="g", ms=5)
     yArray = [approximation(x) for x in xArray]
     plt.plot(xArray, yArray, ls="-", lw=0.5, color="r", ms=5)
-    plt.legend(["Original function", name + " approximation"], bbox_to_anchor=(0.5, -0.1), loc="lower center", ncol=3)
+    plt.legend(
+        ["Original function", name + " approximation"],
+        bbox_to_anchor=(0.5, -0.1),
+        loc="lower center",
+        ncol=3,
+    )
     plt.tight_layout(rect=[0, 0, 1, 1])
     plt.gcf().set_size_inches(12, 9)
     plt.savefig(outputPath / (output_file_name + ".png"), dpi=100)

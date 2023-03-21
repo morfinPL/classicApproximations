@@ -13,7 +13,7 @@
 ## Run
 To run our script you must have python3 and install requirements from requirements.txt file. Then you can simply run
 
-```python run.py -h```
+```pdm run python run.py -h```
 
 for any other details.
 

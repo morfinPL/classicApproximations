@@ -9,55 +9,22 @@ on:
       - main
 
 jobs:
-  autopep8_check:
+  pre-commit_check:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-python@v3
+    - uses: actions/setup-python@v4.5.0
       with:
-        python-version: '3.9.7'
-    - name: Prepare environment
-      run: |
-        pip install poetry==1.1.13
-        poetry install
-    - name: autopep8 check
-      run: poetry run autopep8 --diff --exit-code .
-  isort_check:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v3
+        python-version: '3.11.1'
+    - uses: pdm-project/setup-pdm@v3
+      name: Setup PDM
       with:
-        python-version: '3.9.7'
-    - name: Prepare environment
-      run: |
-        pip install poetry==1.1.13
-        poetry install
-    - name: isort check
-      run: poetry run isort --check-only .
-  autoflake_check:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v3
-      with:
-        python-version: '3.9.7'
-    - name: Prepare environment
-      run: |
-        pip install poetry==1.1.13
-        poetry install
-    - name: autoflake check
-      run: poetry run pautoflake --check .
-  pylint_check:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v3
-      with:
-        python-version: '3.9.7'
-    - name: Prepare environment
-      run: |
-        pip install poetry==1.1.13
-        poetry install
-    - name: pylint check
-      run: poetry run pylint .
+        python-version: 3.11  # Version range or exact version of a Python version to use, the same as actions/setup-python
+        architecture: x64     # The target architecture (x86, x64) of the Python interpreter. the same as actions/setup-python
+        version: 2.4.8        # The version of PDM to install. Leave it as empty to use the latest version from PyPI, or 'head' to use the latest version from GitHub
+        prerelease: false     # Allow prerelease versions to be installed
+        enable-pep582: true   # Enable PEP 582 package loading globally
+    - name: Install dependencies
+      run: pdm install
+    - name: check
+      run: pdm run pre-commit run --all-files
